@@ -48,7 +48,7 @@ def get_routes(city_names):
 if __name__ == '__main__':
     city_names = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
     '''print the cities and routes'''
-    cities = get_randomly_spread_cities((100, 100), 10)
+    cities = get_randomly_spread_cities((100, 100), len(city_names))
     routes = get_routes(city_names)
     print('Cities:')
     for i, city in enumerate(cities):
