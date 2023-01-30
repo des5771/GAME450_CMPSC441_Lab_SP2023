@@ -39,7 +39,79 @@ def get_route_cost(route_coordinate, game_map):
     :return: a floating point number representing the cost of the route
     """
     # Build a path from start to end that looks like [(0, 0), (1, 1), (2, 2), (3, 3), (4, 4), (5, 4)]
-    pass 
+    
+    # Bresenham's line algorithm
+    # plotLine(x0, y0, x1, y1)
+    # dx = x1 - x0
+    # dy = y1 - y0
+    # D = 2*dy - dx
+    # y = y0
+
+    # for x from x0 to x1
+    #     plot(x, y)
+    #     if D > 0
+    #         y = y + 1
+    #         D = D - 2*dx
+    #     end if
+    #     D = D + 2*dy
+
+    # Converted tuples:
+    # [1][0] = x1
+    # [0][1] = y0
+    
+    # Implementation:
+    # print("X0 is: ",route_coordinate[0][0])
+    # print("X1 is: ",route_coordinate[1][0])
+    # print("Y0 is: ",route_coordinate[0][1])
+    # print("Y1 is: ",route_coordinate[1][1])
+
+    # Get distance of X and Y and slope
+    dx = route_coordinate[1][0] - route_coordinate[0][0]
+    dy = route_coordinate[1][1] - route_coordinate[0][1]
+    D = 2*dy - dx
+    # print("dx is: ",dx)
+    # print("dy is: ",dy)
+
+    # Account for negative dy
+    if dy >=0:
+      y = route_coordinate[0][1]
+    else:
+      y = route_coordinate[1][1]
+
+    # Initialize path
+    path = [[],]
+
+    # Loop dat bish
+    if dx >= 0:
+      for x in range(route_coordinate[0][0], route_coordinate[1][0]):
+        # print("Current X is: ", x)
+        # print("Current Y is: ", y)
+        path = path + [(x,y)]
+        if D > 0:
+          if dy >= 0:
+            y = y + 1
+          else:
+            y = y - 1
+          D = D - 2*dx
+        D = D + 2*dy
+    # Account for negative dx
+    else:
+        for x in range(route_coordinate[1][0], route_coordinate[0][0]):
+          # print("Current X is: ", x)
+          # print("Current Y is: ", y)
+          path = path + [(x,y)]
+          if D < 0:
+            if dy >= 0:
+              y = y + 1
+            else:
+              y = y - 1
+            D = D - 2*dx
+          D = D + 2*dy
+
+    # Remove first element of path because of dumb python
+    path = path[1:]
+    # print(path)
+ 
     return game_map[tuple(zip(*path))].sum()
 
 
