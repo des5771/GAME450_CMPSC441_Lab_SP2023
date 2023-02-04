@@ -45,7 +45,28 @@ class AiPlayer(Player):
         self.initial_weapon = random_weapon_select()
     
     def weapon_selecting_strategy(self):
-        pass
+        o = self.opponent_choices
+        s = self.my_choices
+        
+        # Play 3 rounds first
+        if len(self.my_choices) > 2:
+
+            # Defeat Mimic
+            if o[-2] == s[-1] & o[-3] == s[-2]:
+                if int(s[-1]) == 2:
+                    return 0
+                else:
+                    return int(s[-1]) + 1
+
+            # Beat opponents last output
+            if int(o[-1]) == 2:
+                return 0
+            else:
+                return int(o[-1]) + 1
+
+        else:
+            return len(s)
+        
 
 
 if __name__ == '__main__':
