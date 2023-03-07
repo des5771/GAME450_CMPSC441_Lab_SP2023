@@ -19,17 +19,51 @@ from pathlib import Path
 
 sys.path.append(str((Path(__file__) / ".." / ".." / "..").resolve().absolute()))
 
-from src.lab5.landscape import elevation_to_rgba
+from src.lab5.landscape import elevation_to_rgba, get_elevation
 
 
 def game_fitness(cities, idx, elevation, size):
     fitness = 0.0001  # Do not return a fitness of 0, it will mess up the algorithm.
+    goodLocation = 1
+    badLocation = 5
+    goodElevation = 1
+    badElevation = 5
+    goodDistance = 1
+
+    coords = solution_to_cities(cities, size)
+
+    for point in coords:
+        x = point[0]
+        y = point[1]
+
+        #No city overlapping
+        if (len(np.unique(cities)) == len(cities)):                 # Create array that holds unique cities, and ensure that there are the same amount
+            fitness += goodLocation                                 # Reward good
+        else:                                                       # If there is not the same amount, then cities are overlapping
+            fitness -= badLocation                                  # Punish bad
+
+        #Good elevation
+        if (elevation[x][y] > .5 and elevation[x][y] < .6):         # Ensure Elevation of point is not too high or low
+            fitness += goodElevation                                # Reward good
+        else:
+            fitness -= badElevation                                 # Punish bad
+
+        #Good distance
+        shortestDist = 1000                                         # Set to an obsurdly large number that will be replaced
+        for coord in coords:                                        # Go through each point, including own
+            dist = np.linalg.norm(point-coord)                      # Find Euclidean distance using numpy magic
+            if (shortestDist > dist and dist != 0):                 # Keep the shortest distance found, ignore if distance is 0
+                shortestDist = dist
+        
+        fitness += shortestDist * goodDistance                      # Reward good distance
+
     """
     Create your fitness function here to fulfill the following criteria:
     1. The cities should not be under water
     2. The cities should have a realistic distribution across the landscape
     3. The cities may also not be on top of mountains or on top of each other
     """
+
     return fitness
 
 
@@ -113,7 +147,7 @@ if __name__ == "__main__":
 
     size = 100, 100
     n_cities = 10
-    elevation = []
+    elevation = get_elevation(size)
     """ initialize elevation here from your previous code"""
     # normalize landscape
     elevation = np.array(elevation)
