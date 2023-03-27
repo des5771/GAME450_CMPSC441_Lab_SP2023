@@ -47,13 +47,7 @@ def displayCityNames(city_locations, city_names):
 
 class State:
     def __init__(
-        self,
-        current_city,
-        destination_city,
-        travelling,
-        encounter_event,
-        cities,
-        routes,
+        self, current_city, destination_city, travelling, encounter_event, cities, routes
     ):
         self.current_city = current_city
         self.destination_city = destination_city
@@ -100,6 +94,8 @@ if __name__ == "__main__":
 
     """ Add a line below that will reset the player variable to 
     a new object of PyGameAIPlayer class."""
+    """"""
+    player = PyGameAIPlayer()
 
     state = State(
         current_city=start_city,
