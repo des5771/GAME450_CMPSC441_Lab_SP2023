@@ -1,4 +1,4 @@
-import pygame
+import pygame, random
 from pathlib import Path
 
 from sprite import Sprite
@@ -10,6 +10,8 @@ AI_SPRITE_PATH = Path("assets/ai.png")
 
 pygame.font.init()
 game_font = pygame.font.SysFont("Comic Sans MS", 15)
+
+sys.path.append(str((Path(__file__) / ".." / "..").resolve().absolute()))
 
 
 class PyGameComputerCombatPlayer(CombatPlayer):
@@ -45,7 +47,8 @@ def run_turn(currentGame, player, opponent):
     currentGame.takeTurn(player, opponent)
     print("%s's health = %d" % (player.name, player.health))
     print("%s's health = %d" % (opponent.name, opponent.health))
-    reward = currentGame.checkWin(player, opponent)
+    reward = currentGame.checkWin(player, opponent) * random.randint(1, 10)
+    return reward
 
 
 def run_pygame_combat(combat_surface, screen, player_sprite):
