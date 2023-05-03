@@ -113,6 +113,7 @@ def run_episodes(n_episodes):
             average = total/(len(myList))
             action_values[state][action] = average
 
+
     return action_values
 
 
@@ -137,7 +138,7 @@ def test_policy(policy):
 
 
 if __name__ == "__main__":
-    action_values = run_episodes(1)
+    action_values = run_episodes(10000)
     print(action_values)
     optimal_policy = get_optimal_policy(action_values)
     print(optimal_policy)
