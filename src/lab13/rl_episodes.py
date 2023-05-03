@@ -24,7 +24,6 @@ from lab12.episode import run_episode
 
 from collections import defaultdict
 import random
-import numpy as np
 
 
 class PyGameRandomCombatPlayer(PyGameComputerCombatPlayer):
@@ -74,6 +73,46 @@ def run_episodes(n_episodes):
         Return the action values as a dictionary of dictionaries where the keys are states and 
             the values are dictionaries of actions and their values.
     '''
+
+    action_values = {}
+    returns = {}
+    actions = {}
+
+    for i in range(n_episodes):
+        # New episode, new fighters
+        player1 = PyGameRandomCombatPlayer("LegolasAI")
+        player2 = PyGameComputerCombatPlayer("Bandit")
+
+        # Run episode, get values
+        data = run_random_episode(player1, player2)
+        returns = get_history_returns(data)
+
+        history_states = list(returns.keys())
+        history_values = list(returns.values())
+
+        for state in history_states:
+            if state not in action_values:
+                action_values[state] = actions
+            for dic in history_values:
+                for key in dic.keys():
+                    if key not in action_values[state]:
+                        action_values[state][key] = []
+                    action_values[state][key].append(dic[key])
+    
+    for state in action_values:
+        for action in action_values[state]:
+
+            myList = []
+            if isinstance(action_values[state][action], list):
+                myList = action_values[state][action]
+            else:
+                myInt = int(action_values[state][action])
+                myList.append(myInt)
+
+            total = sum(myList)
+            average = total/(len(myList))
+            action_values[state][action] = average
+
 
     return action_values
 

@@ -1,10 +1,12 @@
-import pygame
+import pygame, sys, random
 from pathlib import Path
 
-from sprite import Sprite
-from turn_combat import CombatPlayer, Combat
-from pygame_ai_player import PyGameAICombatPlayer
-from pygame_human_player import PyGameHumanCombatPlayer
+sys.path.append(str((Path(__file__) / ".." / "..").resolve().absolute()))
+
+from lab11.sprite import Sprite
+from lab11.turn_combat import CombatPlayer, Combat
+from lab11.pygame_ai_player import PyGameAICombatPlayer
+from lab11.pygame_human_player import PyGameHumanCombatPlayer
 
 AI_SPRITE_PATH = Path("assets/ai.png")
 
@@ -37,6 +39,7 @@ def draw_combat_on_window(combat_surface, screen, player_sprite, opponent_sprite
 
 def run_turn(currentGame, player, opponent):
     players = [player, opponent]
+    state = (player.health, opponent.health)
     states = list(reversed([(player.health, player.weapon) for player in players]))
     for current_player, state in zip(players, states):
         current_player.selectAction(state)
@@ -45,15 +48,15 @@ def run_turn(currentGame, player, opponent):
     currentGame.takeTurn(player, opponent)
     print("%s's health = %d" % (player.name, player.health))
     print("%s's health = %d" % (opponent.name, opponent.health))
-    reward = currentGame.checkWin(player, opponent)
+    reward = currentGame.checkWin(player, opponent) * random.randint(1, 10)
+    return reward
 
 
 def run_pygame_combat(combat_surface, screen, player_sprite):
     currentGame = Combat()
-    #player = PyGameHumanCombatPlayer("Legolas")
+    player = PyGameHumanCombatPlayer("Legolas")
     """ Add a line below that will reset the player object
     to an instance of the PyGameAICombatPlayer class"""
-    player = PyGameAICombatPlayer("Joe Mama", 0)
 
     opponent = PyGameComputerCombatPlayer("Computer")
     opponent_sprite = Sprite(

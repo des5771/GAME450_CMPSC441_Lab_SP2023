@@ -34,3 +34,4 @@ class PyGameAICombatPlayer(CombatPlayer):
             self.weapon = random.randint(0,2)
 
         return self.weapon
+    
