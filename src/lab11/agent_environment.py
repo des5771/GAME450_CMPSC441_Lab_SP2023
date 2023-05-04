@@ -6,6 +6,7 @@ from pygame_combat import run_pygame_combat
 from pygame_human_player import PyGameHumanPlayer
 from landscape import get_landscape, get_combat_bg
 from pygame_ai_player import PyGameAIPlayer
+from journal import create_journal_entry
 
 from pathlib import Path
 
@@ -106,6 +107,8 @@ if __name__ == "__main__":
         routes=routes,
     )
 
+    journal = {}
+
     while True:
         action = player.selectAction(state)
         if 0 <= int(chr(action)) <= 9:
@@ -118,6 +121,10 @@ if __name__ == "__main__":
                 print(
                     "Travelling from", state.current_city, "to", state.destination_city
                 )
+
+                city_name = city_names[state.destination_city]
+                journal[city_name] = create_journal_entry(city_name)
+                print("JOURNAL: ", journal)
 
         screen.fill(black)
         screen.blit(landscape_surface, (0, 0))
