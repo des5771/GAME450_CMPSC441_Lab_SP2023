@@ -1,0 +1,44 @@
+Daniel Stiller
+Dr. Pulin
+CMPSC 441
+3 May 2023
+
+CMPSC 441 Final
+
+The goal of this project is to create an adventure game in a pygame environment, utilizing AI developed throughout the CMPSC 441
+course. The game requires the development of various components such as cities, routes, player movement, money management, 
+landscapes, turn-based fighting, journaling, and AI players. This project focuses on applying the concepts of artificial 
+intelligence learned in class to gradually create the components of the complete system, and successfully integrate them into a 
+functioning game.
+The player starts their journey from a city and must reach their destination while encountering opponents, managing their money, 
+and deciding their own path. Traveling along routes incurs costs based on the landscape, with higher prices for traversing 
+mountains and oceans. The player may encounter bandits along the routes as well, that the player must battle. Victory in combat 
+yields additional funds, while defeat or a lack of funds will result in a game over.
+The cities and routes must be generated randomly for each playthrough, ensuring that the game is replayable. The player's 
+movement across the map should be easy and intuitive, allowing for quick and strategic decisions based on available resources 
+and potential opponents. Money management is an essential component of the game, requiring players to make smart decisions on
+where and when to spend their funds. The costs of traveling across different landscapes must be balanced, ensuring that the 
+player faces appropriate challenges and receives rewards based on their choices. Turn-based fighting will be implemented using 
+strategies, allowing for intelligent and strategic battles between the player and opponents. The game also features a journaling 
+system, allowing players to keep track of their progress.
+
+1.	Cities
+2.	Landscape
+3.	Cost of travel
+4.	AI player/opponent
+5.	Journaling
+
+Cities are easy to create, as they can be given random coordinates, and given one of many predetermined names. The difficult part 
+of implementing cities was to allow them to spread out across the landscape realistically. This is accomplished in lab7, where a 
+genetic algorithm would ensure that cities are above water, below mountains, and far from other cities.
+Landscape was another fairly simple task, as generating an elevation map was easily done with the matplotlib library, and Perlin 
+noise to create random environments.
+The cost of travel utilizes the Bresenham’s line algorithm, which creates a line between two points. The algorithm itself was 
+slightly tricky to implement, due to difficulty with bug fixing.
+The AI player and opponent were a challenge to implement. In a battle, the player can select a weapon to use against an enemy. 
+The battle acts similarly to rock, paper, scissors, with the opponent also selecting a weapon that can result in a round win, 
+draw, or loss. An enemy AI player may utilize a certain strategy in hopes of winning or picking a weapon randomly. A friendly AI 
+player, however, can pick the best weapon to defeat the enemy’s strategy. While there are still bugs with friendly AI players, 
+the AI is functional and attempts to succeed.
+The final AI implementation is used to generate text for journal entries. As the player moves through their environment, their 
+AI may write down story information into their journal.
